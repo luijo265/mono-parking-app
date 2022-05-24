@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ImagenVehiculoRepository implements ImageVehiculeRepository {
@@ -29,5 +30,14 @@ public class ImagenVehiculoRepository implements ImageVehiculeRepository {
                 .base64(base64)
                 .build();
         imagenVehiculoMongoRepository.save(vehiculo);
+    }
+
+    @Override
+    public Optional<ImageVehicule> getImageVehicule(String id) throws Exception {
+        Optional<ImagenVehiculo> vehiculo = imagenVehiculoMongoRepository.findById(id);
+        if (vehiculo.isPresent())
+            return vehiculo.map(mapper::toImageVehicule);
+        else
+            return Optional.empty();
     }
 }

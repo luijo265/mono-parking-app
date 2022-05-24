@@ -36,8 +36,9 @@ public class ImageRestController {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 404, message = "Imagen no encontrada")
     })
-    public ResponseEntity<ImageVehicule> getImageVehicule(@ApiParam(value = "Id de la imagen", defaultValue = "23132435168") @PathVariable("imageId") String imageId){
-        return new ResponseEntity<>(new ImageVehicule(), HttpStatus.OK);
+    public ResponseEntity<ResponseRestDto> getImageVehicule(@ApiParam(value = "Id de la imagen", defaultValue = "23132435168") @PathVariable("imageId") String imageId) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(imageVehiculeService.getImageVehicule(imageId));
     }
 
     @PostMapping
