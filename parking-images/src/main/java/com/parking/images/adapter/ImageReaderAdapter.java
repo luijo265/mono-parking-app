@@ -3,9 +3,11 @@ package com.parking.images.adapter;
 import com.parking.images.domain.reader.ImageReaderFeature;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class ImageReaderAdapter implements ImageReaderFeature {
 
     private final Log LOGGER = LogFactory.getLog(ImageReaderAdapter.class);
@@ -34,6 +36,7 @@ public class ImageReaderAdapter implements ImageReaderFeature {
     @Override
     public Map<String, String> readFeatureFromImageBase64(String base64) {
         LOGGER.info("");
-        return null;
+        Random position = new Random();
+        return results.get(position.nextInt(2));
     }
 }

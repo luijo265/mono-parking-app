@@ -3,6 +3,7 @@ package com.parking.images.domain.service;
 import com.parking.images.domain.ImageVehicule;
 import com.parking.images.domain.dto.ImageVehiculeDto;
 import com.parking.images.domain.dto.ResponseRestDto;
+import com.parking.images.domain.reader.ImageReaderFeature;
 import com.parking.images.domain.repository.ImageVehiculeRepository;
 import com.parking.images.web.exception.ElementoNoEncontradoException;
 import com.parking.images.web.exception.ValidacionException;
@@ -22,6 +23,9 @@ public class ImageVehiculeServiceImpl implements ImageVehiculeService {
     @Autowired
     private ImageVehiculeRepository imageVehiculeRepository;
 
+    @Autowired
+    private ImageReaderFeature reader;
+
     public List<ImageVehicule> getImageVehicules(){
         return imageVehiculeRepository.getImageVehicules();
     }
@@ -32,12 +36,13 @@ public class ImageVehiculeServiceImpl implements ImageVehiculeService {
 
             Optional<ImageVehicule> vehicule = imageVehiculeRepository.getImageVehicule(imageId);
             checkIsPresentVehicule(vehicule);
-//            Map<String, String> features = getFeaturesFromImage(vehicule.get().getFile());
+            Map<String, String> features = getFeaturesFromImage(vehicule.get().getFile());
             return ResponseRestDto.builder()
                     .status(HttpStatus.OK.value())
                     .data(ImageVehiculeDto.builder()
                             .imageId(vehicule.get().getImageId())
                             .file(vehicule.get().getImageId())
+                            .features(features)
                             .build())
                     .build();
 
@@ -49,7 +54,7 @@ public class ImageVehiculeServiceImpl implements ImageVehiculeService {
     }
 
     private Map<String, String> getFeaturesFromImage(String file) {
-        return new HashMap<>();
+        return reader.readFeatureFromImageBase64(file);
     }
 
     private void checkIsPresentVehicule(Optional<ImageVehicule> vehicule) throws ElementoNoEncontradoException {

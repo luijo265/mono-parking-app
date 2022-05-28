@@ -2,8 +2,8 @@ package com.parking.images.domain.service;
 
 import com.parking.images.domain.ImageVehicule;
 import com.parking.images.domain.dto.ResponseRestDto;
+import com.parking.images.domain.reader.ImageReaderFeature;
 import com.parking.images.domain.repository.ImageVehiculeRepository;
-import com.parking.images.web.exception.ElementoNoEncontradoException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +23,9 @@ public class ImageVehiculeServiceTest {
 
     @Mock
     private ImageVehiculeRepository repository;
+
+    @Mock
+    private ImageReaderFeature reader;
 
     @Test
     public void getImageVehiculeTest() throws Exception {
