@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ImageVehiculeServiceImpl implements ImageVehiculeService {
@@ -34,6 +32,7 @@ public class ImageVehiculeServiceImpl implements ImageVehiculeService {
 
             Optional<ImageVehicule> vehicule = imageVehiculeRepository.getImageVehicule(imageId);
             checkIsPresentVehicule(vehicule);
+//            Map<String, String> features = getFeaturesFromImage(vehicule.get().getFile());
             return ResponseRestDto.builder()
                     .status(HttpStatus.OK.value())
                     .data(ImageVehiculeDto.builder()
@@ -47,6 +46,10 @@ public class ImageVehiculeServiceImpl implements ImageVehiculeService {
             LOGGER.error("getImageVehicule@trace: ", e);
             throw new Exception(e.getMessage(), e);
         }
+    }
+
+    private Map<String, String> getFeaturesFromImage(String file) {
+        return new HashMap<>();
     }
 
     private void checkIsPresentVehicule(Optional<ImageVehicule> vehicule) throws ElementoNoEncontradoException {
