@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.parking.images'
@@ -33,6 +34,38 @@ dependencies {
 
 }
 
+jacoco {
+	toolVersion = "0.8.7"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element = 'CLASS'
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.5
+			}
+			includes = [
+					'com.parking.images.domain.service.*'
+			]
+//			excludes = [
+//					'com.parking.images.adapter.*',
+//					'com.parking.images.persistence.*',
+//					'com.parking.images.web.*',
+//					'com.parking.images.domain.dto.*',
+//					'com.parking.images.domain.reader.*',
+//					'com.parking.images.domain.repository.*',
+//					'com.parking.images.domain.ImageVehicule',
+//					'com.parking.images.ParkingImagesApplication'
+//			]
+		}
+	}
+}
+
+check.dependsOn jacocoTestCoverageVerification
